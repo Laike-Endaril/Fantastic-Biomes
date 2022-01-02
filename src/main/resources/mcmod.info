@@ -1,0 +1,11 @@
+[
+{
+  "modid": "fantasticbiomes",
+  "name": "Fantastic Biomes",
+  "description": "Fantasy-themed biomes",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["Laike_Endaril"],
+  "credits": ""
+}
+]
