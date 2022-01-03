@@ -54,8 +54,7 @@ public class BiomePaintedDesert extends Biome
     {
         super(new Biome.BiomeProperties("Painted Desert").setTemperature(2).setRainfall(0).setRainDisabled().setBaseHeight(1).setHeightVariation(0.5f));
         setRegistryName(new ResourceLocation(MODID, "painted_desert"));
-        BiomeManager.addBiome(BiomeManager.BiomeType.DESERT, new BiomeManager.BiomeEntry(this, 1000));
-        BiomeManager.addSpawnBiome(this);
+        BiomeManager.addBiome(BiomeManager.BiomeType.DESERT, new BiomeManager.BiomeEntry(this, 20));
 
         fillerBlock = RED_HARDENED_CLAY;
 
