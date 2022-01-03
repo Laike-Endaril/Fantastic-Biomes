@@ -1,5 +1,6 @@
-package com.fantasticsource.fantasticbiomes;
+package com.fantasticsource.fantasticbiomes.biome;
 
+import com.fantasticsource.tools.datastructures.DecimalWeightedPool;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,18 +27,30 @@ import static com.fantasticsource.fantasticbiomes.FantasticBiomes.MODID;
 
 public class BiomePaintedDesert extends Biome
 {
-    //NOTE: The decorator boolean and the event for lakes BOTH generate lakes; you need to disable them both to remove lakes from a biome
-
+    public static final DecimalWeightedPool<IBlockState> STAINED_CLAY_POOL = new DecimalWeightedPool<>();
     public static final HashMap<World, NoiseGeneratorSimplex> SIMPLEX_GENERATORS = new HashMap<>();
 
     protected static final IBlockState
             STAINED_HARDENED_CLAY = Blocks.STAINED_HARDENED_CLAY.getDefaultState(),
+            LIGHT_BLUE_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE),
+            MAGENTA_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA),
             RED_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.RED),
             ORANGE_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE),
             YELLOW_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW),
+            SILVER_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.SILVER),
             BROWN_HARDENED_CLAY = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.BROWN);
 
-    BiomePaintedDesert()
+    static
+    {
+        STAINED_CLAY_POOL.addWeight(SILVER_HARDENED_CLAY, 1);
+        STAINED_CLAY_POOL.addWeight(YELLOW_HARDENED_CLAY, 0.75);
+        STAINED_CLAY_POOL.addWeight(ORANGE_HARDENED_CLAY, 1);
+        STAINED_CLAY_POOL.addWeight(RED_HARDENED_CLAY, 3);
+        STAINED_CLAY_POOL.addWeight(MAGENTA_HARDENED_CLAY, 1);
+        STAINED_CLAY_POOL.addWeight(LIGHT_BLUE_HARDENED_CLAY, 1);
+    }
+
+    public BiomePaintedDesert()
     {
         super(new Biome.BiomeProperties("Painted Desert").setTemperature(2).setRainfall(0).setRainDisabled().setBaseHeight(1).setHeightVariation(0.5f));
         setRegistryName(new ResourceLocation(MODID, "painted_desert"));
@@ -85,10 +98,7 @@ public class BiomePaintedDesert extends Biome
         if (yFromSeaLevel == 3) return ORANGE_HARDENED_CLAY;
 
         NoiseGeneratorSimplex simplex = SIMPLEX_GENERATORS.computeIfAbsent(world, o -> new NoiseGeneratorSimplex(new Random(world.getSeed())));
-        double d = (1 + simplex.getValue(0, yFromSeaLevel)) * 0.5;
-        if (d < 0.2) return YELLOW_HARDENED_CLAY;
-        if (d < 0.5) return ORANGE_HARDENED_CLAY;
-        return RED_HARDENED_CLAY;
+        return STAINED_CLAY_POOL.getRandom((1 + simplex.getValue(0, yFromSeaLevel)) * 0.5);
     }
 
     @Override
