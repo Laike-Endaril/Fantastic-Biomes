@@ -67,6 +67,7 @@ public class BiomePaintedDesert extends Biome
         decorator.deadBushPerChunk = -999;
         decorator.cactiPerChunk = -999;
 
+        spawnableCreatureList.clear();
         spawnableWaterCreatureList.clear();
     }
 
