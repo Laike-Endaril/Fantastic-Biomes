@@ -1,4 +1,4 @@
+Fix beach sand creeping up cliffs
+
 Add new, better rivers as structures or otherwise-not-biomes
 Migrate better rivers to new mod
-
-Remove biome bleeding?

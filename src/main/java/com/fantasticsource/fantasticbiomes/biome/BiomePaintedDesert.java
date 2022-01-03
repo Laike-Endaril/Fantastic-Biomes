@@ -79,15 +79,15 @@ public class BiomePaintedDesert extends Biome
     @Override
     public void genTerrainBlocks(World world, Random rand, ChunkPrimer chunkPrimer, int x, int z, double noiseVal)
     {
-        x &= 15;
-        z &= 15;
+        //Somewhere, something weird is going on, and I had to flip the x and z values here to fix it (vanilla also flips them in BiomeMesa.genTerrainBlocks())
+        int xx = z & 15, zz = x & 15;
         int seaLevel = world.getSeaLevel();
         for (int y = (int) (seaLevel - 10 + noiseVal); y < 256; y++)
         {
-            IBlockState primedBlockstate = chunkPrimer.getBlockState(x, y, z);
+            IBlockState primedBlockstate = chunkPrimer.getBlockState(xx, y, zz);
             if (primedBlockstate.getMaterial() != Material.AIR)
             {
-                chunkPrimer.setBlockState(x, y, z, getClayForHeightOffset(world, y - seaLevel));
+                chunkPrimer.setBlockState(xx, y, zz, getClayForHeightOffset(world, y - seaLevel));
             }
         }
     }
