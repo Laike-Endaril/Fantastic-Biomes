@@ -1,4 +1,6 @@
-Add new, better surface rivers, implemented similar to caves, but 2d instead of 3d (since the y is always based on surface height)
-Migrate better rivers to new mod?
+Fix desert so sand doesn't "climb mountains"
 
+Add new, better surface rivers, implemented similar to caves, but 2d instead of 3d (since the y is always based on surface height)
+
+Migrate better rivers to new mod?
 Migrate better beaches to new mod?
