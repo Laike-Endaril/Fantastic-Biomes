@@ -2,7 +2,6 @@ package com.fantasticsource.fantasticbiomes.biome;
 
 import com.fantasticsource.tools.datastructures.DecimalWeightedPool;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -17,6 +16,7 @@ import net.minecraft.world.gen.NoiseGeneratorSimplex;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -85,7 +85,7 @@ public class BiomePaintedDesert extends Biome
         for (int y = (int) (seaLevel - 10 + noiseVal); y < 256; y++)
         {
             IBlockState primedBlockstate = chunkPrimer.getBlockState(xx, y, zz);
-            if (primedBlockstate.getMaterial() != Material.AIR) chunkPrimer.setBlockState(xx, y, zz, getClayForHeightOffset(world, y - seaLevel));
+            if (primedBlockstate.getMaterial().isSolid()) chunkPrimer.setBlockState(xx, y, zz, getClayForHeightOffset(world, y - seaLevel));
         }
     }
 
@@ -154,5 +154,11 @@ public class BiomePaintedDesert extends Biome
                     || world.getBiome(x7z7) instanceof BiomePaintedDesert)
                 event.setResult(Event.Result.DENY);
         }
+    }
+
+    @SubscribeEvent
+    public static void cleanup(WorldEvent.Unload event)
+    {
+        SIMPLEX_GENERATORS.remove(event.getWorld());
     }
 }
