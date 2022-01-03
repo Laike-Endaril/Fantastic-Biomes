@@ -1,6 +1,10 @@
 package com.fantasticsource.fantasticbiomes;
 
+import com.fantasticsource.fantasticbiomes.biome.BiomeBetterBeach;
 import com.fantasticsource.fantasticbiomes.biome.BiomePaintedDesert;
+import com.fantasticsource.tools.ReflectionTool;
+import net.minecraft.init.Biomes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.layer.*;
@@ -12,8 +16,10 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.terraingen.WorldTypeEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 
 import static net.minecraft.world.gen.layer.GenLayer.getModdedBiomeSize;
@@ -48,6 +54,22 @@ public class FantasticBiomes
         Biome biome = new BiomePaintedDesert();
         registry.register(biome);
         BiomeDictionary.addTypes(biome, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.MESA, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.WASTELAND);
+    }
+
+    @Mod.EventHandler
+    public static void postInit(FMLPostInitializationEvent event)
+    {
+        //Vanilla biome replacements
+        ForgeRegistry<Biome> registry = (ForgeRegistry<Biome>) ForgeRegistries.BIOMES;
+        ReflectionTool.set(ForgeRegistry.class, "isModifiable", registry, true);
+
+        //Replace beaches
+        ResourceLocation rl = new ResourceLocation("minecraft", "beaches");
+        registry.remove(rl);
+        Biome biome = new BiomeBetterBeach();
+        registry.register(biome);
+        BiomeDictionary.addTypes(biome, BiomeDictionary.Type.BEACH);
+        ReflectionTool.set(Biomes.class, new String[]{"field_76787_r", "BEACH"}, null, biome);
     }
 
 

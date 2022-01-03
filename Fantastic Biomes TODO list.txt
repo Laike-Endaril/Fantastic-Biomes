@@ -1,4 +1,4 @@
-Fix beach sand creeping up cliffs
+Add new, better surface rivers, implemented similar to caves, but 2d instead of 3d (since the y is always based on surface height)
+Migrate better rivers to new mod?
 
-Add new, better rivers as structures or otherwise-not-biomes
-Migrate better rivers to new mod
+Migrate better beaches to new mod?

@@ -85,10 +85,7 @@ public class BiomePaintedDesert extends Biome
         for (int y = (int) (seaLevel - 10 + noiseVal); y < 256; y++)
         {
             IBlockState primedBlockstate = chunkPrimer.getBlockState(xx, y, zz);
-            if (primedBlockstate.getMaterial() != Material.AIR)
-            {
-                chunkPrimer.setBlockState(xx, y, zz, getClayForHeightOffset(world, y - seaLevel));
-            }
+            if (primedBlockstate.getMaterial() != Material.AIR) chunkPrimer.setBlockState(xx, y, zz, getClayForHeightOffset(world, y - seaLevel));
         }
     }
 
